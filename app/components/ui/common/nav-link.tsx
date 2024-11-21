@@ -1,17 +1,20 @@
+import { Flex } from '@chakra-ui/react'
 import { Link } from '@remix-run/react'
 import React from 'react'
 
 interface NavLinkProps {
   href: string
-  icon: React.ReactElement
   children: React.ReactNode
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }
 
-export default function NavLink({ href, icon, children }: NavLinkProps) {
+export default function NavLink({ icon, href, children }: NavLinkProps) {
+  const Icon = icon
+
   return (
-    <div className="flex items-center gap-8">
-      {icon}
+    <Flex gap={8} alignItems="center">
+      <Icon />
       <Link to={href}>{children}</Link>
-    </div>
+    </Flex>
   )
 }

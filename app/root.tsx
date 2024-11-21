@@ -1,3 +1,5 @@
+import { Center, Heading, Text } from '@chakra-ui/react'
+import { withEmotionCache } from '@emotion/react'
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
   isRouteErrorResponse,
@@ -8,8 +10,10 @@ import {
   ScrollRestoration,
   useRouteError,
 } from '@remix-run/react'
+import { ThemeProvider } from 'next-themes'
 
-import './tailwind.css'
+import { useInjectStyles } from '~/emotion/emotion-client'
+import { ChakraProvider } from '~/providers/chakra-provider'
 
 export const meta: MetaFunction = () => {
   return [
@@ -35,14 +39,24 @@ export const links: LinksFunction = () => [
   },
 ]
 
-export function Layout({ children }: { children: React.ReactNode }) {
+type LayoutProps = React.PropsWithChildren
+
+export const Layout = withEmotionCache((props: LayoutProps, cache) => {
+  const { children } = props
+
+  useInjectStyles(cache)
+
   return (
     <html lang="en">
-      <head>
+      <head suppressHydrationWarning>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <meta
+          name="emotion-insertion-point"
+          content="emotion-insertion-point"
+        />
       </head>
       <body>
         {children}
@@ -51,11 +65,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   )
-}
+})
 
 export default function App() {
-  return <Outlet />
+  return (
+    <ChakraProvider>
+      <ThemeProvider disableTransitionOnChange attribute="class">
+        <Outlet />
+      </ThemeProvider>
+    </ChakraProvider>
+  )
 }
+
 export function ErrorBoundary() {
   const error = useRouteError()
 
@@ -71,9 +92,9 @@ export function ErrorBoundary() {
   }
 
   return (
-    <div className="grid place-items-center h-screen w-screen">
-      <h1 className="text-3xl font-bold">Whoops!</h1>
-      <p>{error?.message ?? 'Unknown error'}</p>
-    </div>
+    <Center w="100vw" h="100vh" display="flex" flexDir="column">
+      <Heading size="6xl">Whoops!</Heading>
+      <Text>{error?.message ?? 'Unknown error'}</Text>
+    </Center>
   )
 }

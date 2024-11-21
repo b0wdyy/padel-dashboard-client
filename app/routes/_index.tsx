@@ -1,3 +1,4 @@
+import { Center, Text } from '@chakra-ui/react'
 import { LoaderFunction } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 
@@ -13,10 +14,10 @@ export default function Index() {
   const user = useLoaderData<typeof loader>()
 
   return (
-    <div className="flex flex-col h-screen items-center justify-center">
-      <p className="mb-4">
+    <Center w="100vw" h="100vh" display="flex" flexDir="column">
+      <Text mb={4}>
         Hiya! 👋 This tool will be an overview Bodhi’s padel stuff...
-      </p>
+      </Text>
 
       {user ? (
         <Link to="/dashboard" className="underline">
@@ -27,6 +28,6 @@ export default function Index() {
           Please login
         </Link>
       )}
-    </div>
+    </Center>
   )
 }

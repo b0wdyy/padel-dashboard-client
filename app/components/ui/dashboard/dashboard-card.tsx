@@ -1,4 +1,6 @@
+import { Box, Heading, Text, Link as ChakraLink } from '@chakra-ui/react'
 import { Link } from '@remix-run/react'
+import React from 'react'
 
 interface DashboardCardProps {
   href: string
@@ -16,13 +18,37 @@ export function DashboardCard({
   const Icon = icon
 
   return (
-    <Link
-      to={href}
-      className="bg-stone-700 p-8 rounded-md relative overflow-hidden"
+    <ChakraLink
+      asChild
+      _hover={{ textDecoration: 'none' }}
+      bg="gray.700"
+      p={8}
+      rounded="md"
+      overflow="hidden"
+      pos="relative"
+      display="flex"
     >
-      <h2 className="text-xs text-gray-200 mb-2 opacity-75">{title}</h2>
-      <p className="text-8xl font-bold">{amount}</p>
-      <Icon className="absolute -bottom-8 -right-8 w-72 fill-stone-600 -rotate-12" />
-    </Link>
+      <Link to={href}>
+        <Box pos="relative" zIndex={2}>
+          <Heading size="sm" color="gray.200" mb={2}>
+            {title}
+          </Heading>
+          <Text textStyle="7xl" fontWeight="extrabold">
+            {amount}
+          </Text>
+        </Box>
+
+        <Box
+          pos="absolute"
+          bottom="-8"
+          right="-8"
+          w={64}
+          fill="gray.600"
+          rotate="-12"
+        >
+          <Icon />
+        </Box>
+      </Link>
+    </ChakraLink>
   )
 }

@@ -1,3 +1,4 @@
+import { Box, Grid, GridItem, Heading } from '@chakra-ui/react'
 import { Category } from '@prisma/client'
 import { LoaderFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
@@ -51,29 +52,35 @@ export default function Dashboard() {
   )
 
   return (
-    <div>
-      <h1>Hiya! Check your stock</h1>
+    <Box>
+      <Heading size="2xl">Hiya! Check your stock</Heading>
 
-      <div className="mt-8 grid grid-cols-3 gap-8">
-        <DashboardCard
-          title="Rackets"
-          href={`/products?${createQueryString('Rackets')}`}
-          amount={getAmount('Rackets')}
-          icon={TennisRacketIcon}
-        />
-        <DashboardCard
-          title="Shoes"
-          href={`/products?${createQueryString('Shoes')}`}
-          amount={getAmount('Shoes')}
-          icon={ShoeIcon}
-        />
-        <DashboardCard
-          title="Balls"
-          href={`/products?${createQueryString('Balls')}`}
-          amount={getAmount('Balls')}
-          icon={TennisBallIcon}
-        />
-      </div>
-    </div>
+      <Grid gap={8} templateColumns="repeat(3, 1fr)" mt={8}>
+        <GridItem>
+          <DashboardCard
+            title="Rackets"
+            href={`/products?${createQueryString('Rackets')}`}
+            amount={getAmount('Rackets')}
+            icon={TennisRacketIcon}
+          />
+        </GridItem>
+        <GridItem>
+          <DashboardCard
+            title="Shoes"
+            href={`/products?${createQueryString('Shoes')}`}
+            amount={getAmount('Shoes')}
+            icon={ShoeIcon}
+          />
+        </GridItem>
+        <GridItem>
+          <DashboardCard
+            title="Balls"
+            href={`/products?${createQueryString('Balls')}`}
+            amount={getAmount('Balls')}
+            icon={TennisBallIcon}
+          />
+        </GridItem>
+      </Grid>
+    </Box>
   )
 }
